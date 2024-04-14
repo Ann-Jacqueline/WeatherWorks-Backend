@@ -8,4 +8,5 @@ public class WeatherController{
         public String greeting() {
                 return "Application works!";
         }
+
 }
