@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 @Service
 public class CityEntryService {
-    private final HashMap<Long, CityEntryWithId> data = new HashMap<>() {{
+    public final HashMap<Long, CityEntryWithId> data = new HashMap<>() {{
         put(1L, new CityEntryWithId("Berlin", 26, "Sonnig",1L));
         put(2L, new CityEntryWithId("Paris", 15, "Wolkig", 2L));
         put(3L, new CityEntryWithId("Madrid", 5, "Regen", 3L));
