@@ -1,6 +1,5 @@
 package backendtech.model;
-import lombok.Getter;
-import lombok.Setter;
+
 
 public class CityEntryWithId extends CityEntry{
     private Long id;
