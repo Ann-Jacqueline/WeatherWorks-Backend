@@ -8,4 +8,8 @@ public class CityEntryWithId extends CityEntry{
         super(name,temperatur,wetterStatus);
         this.id = id;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

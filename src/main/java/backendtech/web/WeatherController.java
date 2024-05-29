@@ -45,7 +45,7 @@ public class WeatherController {
                 boolean isRemoved = cityEntryService.removeCityEntry(id);
                 return isRemoved ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
         }
-        }
+}
 
 
 
