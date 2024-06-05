@@ -24,7 +24,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
+	runtimeOnly 'com.h2database:h2:2.1.214'
+	testImplementation 'com.h2database:h2:2.2.220'
 }
 
 tasks.named('test') {

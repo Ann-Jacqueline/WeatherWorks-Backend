@@ -1,36 +1,34 @@
 package backendtech.service;
+
 import backendtech.model.CityEntry;
-import backendtech.model.CityEntryWithId;
+import backendtech.persistence.CityEntryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CityEntryService {
-    public final HashMap<Long, CityEntryWithId> data = new HashMap<>() {{
-        put(1L, new CityEntryWithId("Berlin", 26, "Sonnig",1L));
-        put(2L, new CityEntryWithId("Paris", 15, "Wolkig", 2L));
-        put(3L, new CityEntryWithId("Madrid", 5, "Regen", 3L));
-    }};
-    private long currentId = data.size() + 1;
 
-    public CityEntryWithId getCityEntry(Long id) {
-        return data.get(id);
+    @Autowired
+    private CityEntryRepository repository;
+
+    public Optional<CityEntry> getCityEntry(Long id) {
+        return this.repository.findById(id);
     }
 
-    public List<CityEntryWithId> getCityEntrys() {
-        return data.values().stream().toList();
+    public Iterable<CityEntry> getCityEntries() {
+        return this.repository.findAll();
+    }
+
+    public CityEntry addCityEntry(final CityEntry cityEntry) {
+        return repository.save(cityEntry);
     }
 
 
-    public CityEntryWithId addCityEntry(final CityEntry CityEntry) {
-        final long id = currentId++;
-        final CityEntryWithId cityEntryWithId = new CityEntryWithId(CityEntry.getName(), CityEntry.getTemperatur(), CityEntry.getWetterStatus(), id);
-        data.put(id, cityEntryWithId);
-        return cityEntryWithId;
-    }
     public boolean removeCityEntry(final Long id) {
-        return data.remove(id) != null;
+        final boolean exists = repository.existsById(id);
+        if (exists) repository.deleteById(id);
+        return exists;
     }
-
 }
