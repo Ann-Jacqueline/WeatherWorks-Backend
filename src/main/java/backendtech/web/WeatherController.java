@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/greeting")
+@RequestMapping("/city")
 public class WeatherController {
 
         private final CityEntryService cityEntryService;
@@ -33,8 +33,27 @@ public class WeatherController {
 
         @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<CityEntry> addCityEntry(@Valid @RequestBody CityEntry body) {
-                final CityEntry c = new CityEntry( body.getWetterStatus(), body.getTemperatur(), body.getName());
-                final CityEntry addedCityEntry = cityEntryService.addCityEntry(c);
+                final CityEntry newCityEntry = new CityEntry(
+                        body.getName(),
+                        body.getTemperature(),
+                        body.getMinTemperature(),
+                        body.getMaxTemperature(),
+                        body.getFeelsLike(),
+                        body.getDescription(),
+                        body.getIcon(),
+                        body.getWindSpeed(),
+                        body.getHumidity(),
+                        body.getCloudiness(),
+                        body.getCountry(),
+                        body.getPressure(),
+                        body.getVisibility(),
+                        body.getTimezone(),
+                        body.getSunrise(),
+                        body.getSunset(),
+                        body.getLocalDate(),
+                        body.getLocalTime()
+                );
+                final CityEntry addedCityEntry = cityEntryService.addCityEntry(newCityEntry);
                 return new ResponseEntity<>(addedCityEntry, HttpStatus.CREATED);
         }
 
