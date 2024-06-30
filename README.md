@@ -8,4 +8,4 @@
 ### 4: Default Stadt ändern check
 ### 5:(Standorte verwalten): Standorte Löschen axios und localStorage im frontend delete check
 ### 6: Einstellungen (Einheit °C oder °F) check settings
-### 7. Error handling bei fehlerhafter Stadtsuche.
+### 7. Error handling bei fehlerhafter Stadtsuche
