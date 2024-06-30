@@ -1,28 +1,28 @@
 package backendtech.service;
 
-import backendtech.model.CityEntry;
-import backendtech.persistence.CityEntryRepository;
+import backendtech.model.CitySearch;
+import backendtech.persistence.CitySearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class CityEntryService {
+public class CitySearchService {
 
     @Autowired
-    private CityEntryRepository repository;
+    private CitySearchRepository repository;
 
-    public Optional<CityEntry> getCityEntry(Long id) {
+    public Optional<CitySearch> getCityEntry(Long id) {
         return this.repository.findById(id);
     }
 
-    public Iterable<CityEntry> getCityEntries() {
+    public Iterable<CitySearch> getCityEntries() {
         return this.repository.findAll();
     }
 
-    public CityEntry addCityEntry(final CityEntry cityEntry) {
-        return repository.save(cityEntry);
+    public CitySearch addCityEntry(final CitySearch citySearch) {
+        return repository.save(citySearch);
     }
 
 

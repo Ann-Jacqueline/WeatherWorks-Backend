@@ -12,6 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
         public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("*")
+                        .allowCredentials(true)  // Erlaubt das Senden von Credentials wie Cookies über Domains hinweg
+                        .allowedHeaders("*")    // Erlaubt alle Headers
                         .allowedOrigins(
                                 "http://localhost:5173", "http://localhost:5174", "http://localhost:5175",
                                 "http://localhost:5176", "http://localhost:5177", "http://localhost:5178",
