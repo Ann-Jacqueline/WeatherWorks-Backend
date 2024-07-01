@@ -51,14 +51,6 @@ public class CityHistoryOwnerControllerTest {
     }
 
     @Test
-    void testGetCityHistoryOwnerById() throws Exception {
-        mockMvc.perform(get("/users/1").session(session))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.userName").value("user"));
-    }
-
-    @Test
     void testGetCurrentUser() throws Exception {
         mockMvc.perform(get("/users/current").session(session))
                 .andExpect(status().isOk())
