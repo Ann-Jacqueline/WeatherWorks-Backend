@@ -40,30 +40,6 @@ public class CityHistoryOwnerController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-    @GetMapping("/current")
-    public ResponseEntity<?> getCurrentUser(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                logger.info("Cookie: {}, Value: {}", cookie.getName(), cookie.getValue());
-            }
-        }
-        HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("userName") != null) {
-            Optional<CityHistoryOwner> currentUser = cityHistoryOwnerService.getCurrentUser();
-            if (currentUser.isPresent()) {
-                return ResponseEntity.ok(Map.of("userName", currentUser.get().getUserName()));
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No active session present.");
-            }
-        } else {
-            logger.info("No valid session present or no username in session.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No active session present.");
-        }
-    }
-
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<CityHistoryOwner>> getCityHistoryOwners(HttpServletRequest request) {
         if (request.getSession(false) == null) {

@@ -3,6 +3,8 @@ package backendtech.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import javax.swing.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,24 +16,27 @@ public class CityHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean setAsDefault;
     private String cityName;
+    private String country;
     private int temperature;
     private String localTime;
     private boolean deleted;
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private CityHistoryOwner owner;
+    private boolean setAsDefault;
 
-    public CityHistory(boolean setAsDefault, String cityName, int temperature, String localTime, boolean deleted, CityHistoryOwner owner) {
-        this.setAsDefault = setAsDefault;
+
+
+    @JoinColumn(name = "owner_id")
+    private String owner;
+
+    public CityHistory(String cityName, String country, int temperature, String localTime, boolean deleted, String owner,boolean setAsDefault) {
         this.cityName = cityName;
+        this.country = country;
         this.temperature = temperature;
         this.localTime = localTime;
         this.deleted = deleted;
         this.owner = owner;
+        this.setAsDefault =setAsDefault;
     }
 
 
 }
-
