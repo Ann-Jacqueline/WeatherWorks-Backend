@@ -1,4 +1,5 @@
 package backendtech.web;
+
 import backendtech.model.CityHistory;
 import backendtech.service.CityHistoryService;
 import jakarta.validation.Valid;
@@ -47,5 +48,4 @@ public class CityHistoryController {
         boolean isRemoved = cityHistoryService.removeCityHistory(id);
         return isRemoved ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
-
 }
