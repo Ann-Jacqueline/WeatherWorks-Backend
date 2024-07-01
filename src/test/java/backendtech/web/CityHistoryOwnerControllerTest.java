@@ -51,13 +51,6 @@ public class CityHistoryOwnerControllerTest {
     }
 
     @Test
-    void testGetCurrentUser() throws Exception {
-        mockMvc.perform(get("/users/current").session(session))
-                .andExpect(status().isOk())
-                .andExpect(content().json("{\"userName\":\"user\"}"));
-    }
-
-    @Test
     void testLoginUser() throws Exception {
         mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,11 +58,6 @@ public class CityHistoryOwnerControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    void testLogout() throws Exception {
-        mockMvc.perform(post("/users/logout").session(session))
-                .andExpect(status().isOk());
-    }
 
     @Test
     void testAddCityHistoryOwnerUnauthorizedWithoutSession() throws Exception {
