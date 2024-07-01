@@ -2,22 +2,22 @@ package backendtech.web;
 
 import backendtech.model.CityHistoryOwner;
 import backendtech.service.CityHistoryOwnerService;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -30,56 +30,77 @@ public class CityHistoryOwnerControllerTest {
     @MockBean
     private CityHistoryOwnerService cityHistoryOwnerService;
 
-    private MockHttpSession session;
+    @MockBean
+    private HttpSession session;
 
     @BeforeEach
     void setUp() {
-        session = new MockHttpSession();
-        session.setAttribute("userName", "user");
+        CityHistoryOwner cityHistoryOwner = new CityHistoryOwner("Ann-Jacqueline");
+        cityHistoryOwner.setId(1L);
 
-        CityHistoryOwner owner = new CityHistoryOwner(1L, "user");
-        when(cityHistoryOwnerService.getCityHistoryOwners()).thenReturn(List.of(owner));
-        when(cityHistoryOwnerService.getCityHistoryOwner(1L)).thenReturn(Optional.of(owner));
-        when(cityHistoryOwnerService.addCityHistoryOwner(any(CityHistoryOwner.class))).thenReturn(owner);
+        when(cityHistoryOwnerService.getCityHistoryOwners()).thenReturn(List.of(cityHistoryOwner));
+        when(cityHistoryOwnerService.getCityHistoryOwner(1L)).thenReturn(Optional.of(cityHistoryOwner));
+        when(cityHistoryOwnerService.addCityHistoryOwner(any(CityHistoryOwner.class))).thenReturn(cityHistoryOwner);
+        when(cityHistoryOwnerService.getCurrentUser("Ann-Jacqueline")).thenReturn(Optional.of(cityHistoryOwner));
     }
 
     @Test
     void testGetCityHistoryOwners() throws Exception {
-        mockMvc.perform(get("/users").session(session))
+        when(session.getAttribute("userName")).thenReturn("Ann-Jacqueline");
+        when(session.getId()).thenReturn("session123");
+
+        this.mockMvc.perform(get("/users").sessionAttr("userName", "Ann-Jacqueline"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].userName").value("Ann-Jacqueline"));
+    }
+
+    @Test
+    void testAddCityHistoryOwner() throws Exception {
+        String cityHistoryOwnerJson = "{\"userName\":\"Ann-Jacqueline\"}";
+
+        this.mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(cityHistoryOwnerJson)
+                        .sessionAttr("userName", "Ann-Jacqueline"))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.userName").value("Ann-Jacqueline"));
     }
 
     @Test
     void testLoginUser() throws Exception {
-        mockMvc.perform(post("/users/login")
+        String loginJson = "{\"userName\":\"Ann-Jacqueline\"}";
+
+        this.mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userName\":\"user\"}"))
+                        .content(loginJson))
                 .andExpect(status().isCreated());
     }
 
-
     @Test
-    void testAddCityHistoryOwnerUnauthorizedWithoutSession() throws Exception {
-        mockMvc.perform(post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userName\":\"newUser\"}"))
+    void testUnauthorizedGetCityHistoryOwners() throws Exception {
+        this.mockMvc.perform(get("/users"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    void testAddCityHistoryOwnerWithSession() throws Exception {
-        mockMvc.perform(post("/users")
-                        .session(session)
+    void testUnauthorizedAddCityHistoryOwner() throws Exception {
+        String cityHistoryOwnerJson = "{\"userName\":\"Ann-Jacqueline\"}";
+
+        this.mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userName\":\"newUser\"}"))
-                .andExpect(status().isCreated());
+                        .content(cityHistoryOwnerJson))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
     void testGetAllUsers() throws Exception {
-        mockMvc.perform(get("/users/").session(session))
-                .andExpect(status().isOk());
+        when(cityHistoryOwnerService.getAllUsers()).thenReturn(List.of(new CityHistoryOwner("Ann-Jacqueline")));
+
+        this.mockMvc.perform(get("/users/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].userName").value("Ann-Jacqueline"));
     }
 }
-
