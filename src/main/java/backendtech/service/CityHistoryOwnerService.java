@@ -1,4 +1,5 @@
 package backendtech.service;
+
 import backendtech.model.CityHistoryOwner;
 import backendtech.persistence.CityHistoryOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ public class CityHistoryOwnerService {
     @Autowired
     private CityHistoryOwnerRepository repository;
 
+    private CityHistoryOwner currentUser;
+
     public Optional<CityHistoryOwner> getCityHistoryOwner(Long id) {
         return this.repository.findById(id);
     }
@@ -23,8 +26,16 @@ public class CityHistoryOwnerService {
     public CityHistoryOwner addCityHistoryOwner(final CityHistoryOwner cityHistoryOwner) {
         return repository.save(cityHistoryOwner);
     }
+
     public List<CityHistoryOwner> getAllUsers() {
         return (List<CityHistoryOwner>) this.repository.findAll();
     }
 
+    public void setCurrentUser(CityHistoryOwner user) {
+        this.currentUser = user;
+    }
+
+    public Optional<CityHistoryOwner> getCurrentUser() {
+        return Optional.ofNullable(currentUser);
+    }
 }
