@@ -1,64 +1,86 @@
 package backendtech.service;
 
 import backendtech.model.CityHistory;
-import backendtech.model.CityHistoryOwner;
 import backendtech.persistence.CityHistoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-//@SpringBootTest
-//public class CityHistoryServiceTest {
-//
-//    @Autowired
-//    private CityHistoryService service;
-//
-//    @MockBean
-//    private CityHistoryRepository repository;
-//
-//    @BeforeEach
-//    void setUp() {
-//        CityHistoryOwner owner = new CityHistoryOwner("User1");
-//        owner.setId(1L);
-//        CityHistory history1 = new CityHistory(true, "Berlin", 24, "12:00", false, "Ann-Jacqueline");
-//        history1.setId(1L);
-//        CityHistory history2 = new CityHistory(false, "London", 15, "10:00", false, "Ann-Jacqueline");
-//        history2.setId(2L);
-//
-//        doReturn(Optional.of(history1)).when(repository).findById(1L);
-//        doReturn(List.of(history1, history2)).when(repository).findAll();
-//        doReturn(history1).when(repository).save(any(CityHistory.class));
-//    }
-//
-//    @Test
-//    void testGetCityHistory() {
-//        Optional<CityHistory> found = service.getCityHistory(1L);
-//        assertTrue(found.isPresent(), "City history should be found with id 1");
-//        assertEquals("Berlin", found.get().getCityName(), "The city name should be Berlin");
-//    }
-//
-//    @Test
-//    void testGetCityHistories() {
-//        Iterable<CityHistory> histories = service.getCityHistories();
-//        List<CityHistory> result = List.of(histories.iterator().next(), histories.iterator().next());
-//        assertEquals(2, result.size(), "Should return two histories");
-//    }
-//
-//
-//    @Test
-//    void testRemoveCityHistory() {
-//        when(repository.existsById(1L)).thenReturn(true);
-//        boolean result = service.removeCityHistory(1L);
-//        assertTrue(result, "Should return true as the history exists and should be deleted");
-//        verify(repository).deleteById(1L);
-//    }
-//}
-//
+public class CityHistoryServiceTest {
+
+    @Mock
+    private CityHistoryRepository cityHistoryRepository;
+
+    @InjectMocks
+    private CityHistoryService cityHistoryService;
+
+    private CityHistory cityHistory;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        cityHistory = new CityHistory("Berlin", "DE", 20, "12:00", false, "Ann-Jacqueline", true);
+        cityHistory.setId(1L);
+    }
+
+    @Test
+    void testGetCityHistory() {
+        when(cityHistoryRepository.findById(1L)).thenReturn(Optional.of(cityHistory));
+
+        Optional<CityHistory> foundCityHistory = cityHistoryService.getCityHistory(1L);
+
+        assertTrue(foundCityHistory.isPresent());
+        assertEquals("Berlin", foundCityHistory.get().getCityName());
+    }
+
+    @Test
+    void testGetCityHistories() {
+        when(cityHistoryRepository.findAll()).thenReturn(List.of(cityHistory));
+
+        Iterable<CityHistory> cityHistories = cityHistoryService.getCityHistories();
+
+        assertNotNull(cityHistories);
+        assertEquals(1, ((List<CityHistory>) cityHistories).size());
+        assertEquals("Berlin", ((List<CityHistory>) cityHistories).getFirst().getCityName());
+    }
+
+    @Test
+    void testAddCityHistory() {
+        when(cityHistoryRepository.save(any(CityHistory.class))).thenReturn(cityHistory);
+
+        CityHistory newCityHistory = cityHistoryService.addCityHistory(cityHistory);
+
+        assertNotNull(newCityHistory);
+        assertEquals("Berlin", newCityHistory.getCityName());
+    }
+
+    @Test
+    void testRemoveCityHistory() {
+        when(cityHistoryRepository.existsById(1L)).thenReturn(true);
+        doNothing().when(cityHistoryRepository).deleteById(1L);
+
+        boolean isRemoved = cityHistoryService.removeCityHistory(1L);
+
+        assertTrue(isRemoved);
+        verify(cityHistoryRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void testRemoveCityHistoryNotFound() {
+        when(cityHistoryRepository.existsById(1L)).thenReturn(false);
+
+        boolean isRemoved = cityHistoryService.removeCityHistory(1L);
+
+        assertFalse(isRemoved);
+        verify(cityHistoryRepository, never()).deleteById(1L);
+    }
+}
