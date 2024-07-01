@@ -2,6 +2,7 @@ package backendtech.web;
 
 import backendtech.model.CityHistory;
 import backendtech.service.CityHistoryService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,14 +31,15 @@ public class CityHistoryController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CityHistory> addCityHistory(@Valid @RequestBody CityHistory body) {
+    public ResponseEntity<CityHistory> addCityHistory(@Valid @RequestBody CityHistory body, HttpServletRequest request) {
         final CityHistory newCityHistory = new CityHistory(
-                body.isSetAsDefault(),
                 body.getCityName(),
+                body.getCountry(),
                 body.getTemperature(),
                 body.getLocalTime(),
                 body.isDeleted(),
-                body.getOwner()
+                body.getOwner(),  // Setze den Owner
+                body.isSetAsDefault()
         );
         final CityHistory addedCityHistory = cityHistoryService.addCityHistory(newCityHistory);
         return new ResponseEntity<>(addedCityHistory, HttpStatus.CREATED);

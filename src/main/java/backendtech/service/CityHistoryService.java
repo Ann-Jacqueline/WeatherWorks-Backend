@@ -1,4 +1,5 @@
 package backendtech.service;
+
 import backendtech.model.CityHistory;
 import backendtech.persistence.CityHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,4 @@ public class CityHistoryService {
         if (exists) repository.deleteById(id);
         return exists;
     }
-
 }

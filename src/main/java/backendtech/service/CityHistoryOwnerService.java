@@ -13,8 +13,6 @@ public class CityHistoryOwnerService {
     @Autowired
     private CityHistoryOwnerRepository repository;
 
-    private CityHistoryOwner currentUser;
-
     public Optional<CityHistoryOwner> getCityHistoryOwner(Long id) {
         return this.repository.findById(id);
     }
@@ -31,11 +29,7 @@ public class CityHistoryOwnerService {
         return (List<CityHistoryOwner>) this.repository.findAll();
     }
 
-    public void setCurrentUser(CityHistoryOwner user) {
-        this.currentUser = user;
-    }
-
-    public Optional<CityHistoryOwner> getCurrentUser() {
-        return Optional.ofNullable(currentUser);
+    public Optional<CityHistoryOwner> getCurrentUser(String userName) {
+        return this.repository.findByUserName(userName);
     }
 }
