@@ -4,8 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Testklasse für CityHistory.
+ * Diese Klasse testet die Methode toString() der CityHistory-Klasse.
+ */
 public class CityHistoryTest {
 
+    /**
+     * Testet die toString()-Methode der CityHistory-Klasse.
+     */
     @Test
     void testCityHistoryToString() {
         // Erstellen einer Instanz von CityHistoryOwner, die als Abhängigkeit benötigt wird

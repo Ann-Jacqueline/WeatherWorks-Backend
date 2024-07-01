@@ -19,6 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Der Controller für die Verwaltung der CityHistoryOwner.
+ * Dieser Controller bietet Endpunkte für das Anmelden von Benutzern,
+ * das Abrufen von CityHistoryOwner-Informationen und das Hinzufügen neuer CityHistoryOwner.
+ */
 @Controller
 @AllArgsConstructor
 @RequestMapping("/users")
@@ -26,20 +31,32 @@ public class CityHistoryOwnerController {
     private final CityHistoryOwnerService cityHistoryOwnerService;
     private static final Logger logger = LoggerFactory.getLogger(CityHistoryOwnerController.class);
 
+    /**
+     * Meldet einen Benutzer an und startet eine neue Sitzung.
+     * @param userData Die Daten des Benutzers, enthalten den Benutzernamen.
+     * @param request Das HttpServletRequest-Objekt.
+     * @return Eine ResponseEntity, die den Status der Anfrage zurückgibt.
+     */
     @PostMapping("/login")
     public ResponseEntity<Void> loginUser(@RequestBody Map<String, String> userData, HttpServletRequest request) {
         String userName = userData.get("userName");
         if (userName != null && !userName.isEmpty()) {
             HttpSession session = request.getSession(true);
             session.setAttribute("userName", userName);
-            logger.info("New session started, Session ID: {}", session.getId());
-            logger.info("Username '{}' added to session.", userName);
+            logger.info("Neue Sitzung gestartet, Sitzungs-ID: {}", session.getId());
+            logger.info("Benutzername '{}' zur Sitzung hinzugefügt.", userName);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
-            logger.warn("Login attempt with invalid or empty user data.");
+            logger.warn("Anmeldeversuch mit ungültigen oder leeren Benutzerdaten.");
             return ResponseEntity.badRequest().build();
         }
     }
+
+    /**
+     * Gibt eine Liste aller CityHistoryOwner zurück.
+     * @param request Das HttpServletRequest-Objekt.
+     * @return Eine ResponseEntity mit der Liste der CityHistoryOwner.
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<CityHistoryOwner>> getCityHistoryOwners(HttpServletRequest request) {
         if (request.getSession(false) == null) {
@@ -48,6 +65,12 @@ public class CityHistoryOwnerController {
         return ResponseEntity.ok(cityHistoryOwnerService.getCityHistoryOwners());
     }
 
+    /**
+     * Fügt einen neuen CityHistoryOwner hinzu.
+     * @param body Die Daten des neuen CityHistoryOwner.
+     * @param request Das HttpServletRequest-Objekt.
+     * @return Eine ResponseEntity mit dem hinzugefügten CityHistoryOwner.
+     */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CityHistoryOwner> addCityHistoryOwner(@Valid @RequestBody CityHistoryOwner body, HttpServletRequest request) {
         if (request.getSession(false) != null) {
@@ -58,6 +81,10 @@ public class CityHistoryOwnerController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    /**
+     * Gibt eine Liste aller Benutzer zurück.
+     * @return Eine ResponseEntity mit der Liste aller Benutzer.
+     */
     @GetMapping("/")
     public ResponseEntity<List<CityHistoryOwner>> getAllUsers() {
         List<CityHistoryOwner> users = (List<CityHistoryOwner>) cityHistoryOwnerService.getCityHistoryOwners();

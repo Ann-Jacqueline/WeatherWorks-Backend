@@ -17,6 +17,10 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Testklasse für den CityHistoryController.
+ * Diese Klasse testet die verschiedenen Endpunkte des CityHistoryController.
+ */
 @WebMvcTest(CityHistoryController.class)
 public class CityHistoryControllerTest {
 
@@ -36,6 +40,9 @@ public class CityHistoryControllerTest {
         when(cityHistoryService.addCityHistory(any(CityHistory.class))).thenReturn(cityHistory);
     }
 
+    /**
+     * Testet den Endpunkt für das Abrufen aller CityHistories.
+     */
     @Test
     void testGetCityHistories() throws Exception {
         this.mockMvc.perform(get("/history"))
@@ -44,6 +51,9 @@ public class CityHistoryControllerTest {
                 .andExpect(jsonPath("$[0].cityName").value("Berlin"));
     }
 
+    /**
+     * Testet den Endpunkt für das Abrufen einer CityHistory anhand der ID.
+     */
     @Test
     void testGetCityHistoryById() throws Exception {
         this.mockMvc.perform(get("/history/1"))
@@ -52,6 +62,9 @@ public class CityHistoryControllerTest {
                 .andExpect(jsonPath("$.cityName").value("Berlin"));
     }
 
+    /**
+     * Testet den Endpunkt für das Hinzufügen einer neuen CityHistory.
+     */
     @Test
     void testAddCityHistory() throws Exception {
         String cityHistoryJson = "{\"cityName\":\"Berlin\",\"country\":\"DE\",\"temperature\":20,\"localTime\":\"12:00\",\"deleted\":false,\"owner\":\"Ann-Jacqueline\",\"setAsDefault\":true}";
@@ -64,6 +77,9 @@ public class CityHistoryControllerTest {
                 .andExpect(jsonPath("$.cityName").value("Berlin"));
     }
 
+    /**
+     * Testet den Endpunkt für das Löschen einer CityHistory anhand der ID.
+     */
     @Test
     void testDeleteCityHistory() throws Exception {
         when(cityHistoryService.removeCityHistory(1L)).thenReturn(true);
@@ -74,6 +90,9 @@ public class CityHistoryControllerTest {
         verify(cityHistoryService).removeCityHistory(1L);
     }
 
+    /**
+     * Testet den Endpunkt für das Löschen einer CityHistory, wenn diese nicht gefunden wird.
+     */
     @Test
     void testDeleteCityHistoryNotFound() throws Exception {
         when(cityHistoryService.removeCityHistory(1L)).thenReturn(false);

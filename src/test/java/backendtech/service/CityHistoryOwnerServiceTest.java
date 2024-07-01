@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +15,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testklasse für den CityHistoryOwnerService.
+ * Diese Klasse testet die verschiedenen Methoden des CityHistoryOwnerService.
+ */
 @SpringBootTest
 public class CityHistoryOwnerServiceTest {
 
@@ -38,6 +41,9 @@ public class CityHistoryOwnerServiceTest {
         when(repository.save(any(CityHistoryOwner.class))).thenReturn(exampleOwner);
     }
 
+    /**
+     * Testet die Methode getCityHistoryOwner().
+     */
     @Test
     void testGetCityHistoryOwner() {
         Optional<CityHistoryOwner> result = service.getCityHistoryOwner(1L);
@@ -45,6 +51,9 @@ public class CityHistoryOwnerServiceTest {
         assertEquals("Ann-Jacqueline", result.get().getUserName(), "Der Benutzername sollte Ann-Jacqueline sein");
     }
 
+    /**
+     * Testet die Methode getCityHistoryOwners().
+     */
     @Test
     void testGetCityHistoryOwners() {
         Iterable<CityHistoryOwner> result = service.getCityHistoryOwners();
@@ -52,11 +61,13 @@ public class CityHistoryOwnerServiceTest {
         assertEquals("Ann-Jacqueline", result.iterator().next().getUserName(), "Der Benutzername sollte Ann-Jacqueline sein");
     }
 
+    /**
+     * Testet die Methode getAllUsers().
+     */
     @Test
     void testGetAllUsers() {
         List<CityHistoryOwner> result = service.getAllUsers();
-        assertSame(1, result.size(), "Die Anzahl der Benutzer sollte eins sein");
-        assertEquals("Ann-Jacqueline", result.getFirst().getUserName(), "Der Benutzername sollte Ann-Jacqueline sein");
+        assertEquals(1, result.size(), "Die Anzahl der Benutzer sollte eins sein");
+        assertEquals("Ann-Jacqueline", result.get(0).getUserName(), "Der Benutzername sollte Ann-Jacqueline sein");
     }
 }
-
