@@ -5,8 +5,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Testklasse für CitySearch.
+ * Diese Klasse testet die Methode toString() der CitySearch-Klasse.
+ */
 @SpringBootTest
 public class CitySearchTest {
+
+    /**
+     * Testet die toString()-Methode der CitySearch-Klasse.
+     */
     @Test
     void testCitySearchToString() {
         // Erstellen einer Instanz von CitySearch
@@ -22,4 +30,3 @@ public class CitySearchTest {
         assertEquals(expected, result);
     }
 }
-

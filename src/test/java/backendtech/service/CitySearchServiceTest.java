@@ -14,6 +14,10 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testklasse für den CitySearchService.
+ * Diese Klasse testet die verschiedenen Methoden des CitySearchService.
+ */
 @SpringBootTest
 public class CitySearchServiceTest {
 
@@ -32,6 +36,10 @@ public class CitySearchServiceTest {
         doReturn(Optional.of(berlin)).when(repository).findById(1L);
         doReturn(berlin).when(repository).save(any(CitySearch.class));
     }
+
+    /**
+     * Testet die Methode getCityEntry().
+     */
     @Test
     void testGetCityEntry() {
         Optional<CitySearch> found = service.getCityEntry(1L);
@@ -39,6 +47,9 @@ public class CitySearchServiceTest {
         assertEquals("Berlin", found.get().getName(), "The name of the city should be Berlin");
     }
 
+    /**
+     * Testet die Methode getCityEntries().
+     */
     @Test
     void testGetCityEntries() {
         Iterable<CitySearch> entries = service.getCityEntries();
@@ -46,7 +57,9 @@ public class CitySearchServiceTest {
         assertEquals(2, result.size(), "Should return two cities");
     }
 
-
+    /**
+     * Testet die Methode removeCityEntry().
+     */
     @Test
     void testRemoveCityEntry() {
         when(repository.existsById(1L)).thenReturn(true);

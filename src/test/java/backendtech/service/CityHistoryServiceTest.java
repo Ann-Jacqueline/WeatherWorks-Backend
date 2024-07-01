@@ -15,6 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+/**
+ * Testklasse für den CityHistoryService.
+ * Diese Klasse testet die verschiedenen Methoden des CityHistoryService.
+ */
 public class CityHistoryServiceTest {
 
     @Mock
@@ -32,6 +36,9 @@ public class CityHistoryServiceTest {
         cityHistory.setId(1L);
     }
 
+    /**
+     * Testet die Methode getCityHistory().
+     */
     @Test
     void testGetCityHistory() {
         when(cityHistoryRepository.findById(1L)).thenReturn(Optional.of(cityHistory));
@@ -42,6 +49,9 @@ public class CityHistoryServiceTest {
         assertEquals("Berlin", foundCityHistory.get().getCityName());
     }
 
+    /**
+     * Testet die Methode getCityHistories().
+     */
     @Test
     void testGetCityHistories() {
         when(cityHistoryRepository.findAll()).thenReturn(List.of(cityHistory));
@@ -50,9 +60,12 @@ public class CityHistoryServiceTest {
 
         assertNotNull(cityHistories);
         assertEquals(1, ((List<CityHistory>) cityHistories).size());
-        assertEquals("Berlin", ((List<CityHistory>) cityHistories).getFirst().getCityName());
+        assertEquals("Berlin", ((List<CityHistory>) cityHistories).get(0).getCityName());
     }
 
+    /**
+     * Testet die Methode addCityHistory().
+     */
     @Test
     void testAddCityHistory() {
         when(cityHistoryRepository.save(any(CityHistory.class))).thenReturn(cityHistory);
@@ -63,6 +76,9 @@ public class CityHistoryServiceTest {
         assertEquals("Berlin", newCityHistory.getCityName());
     }
 
+    /**
+     * Testet die Methode removeCityHistory().
+     */
     @Test
     void testRemoveCityHistory() {
         when(cityHistoryRepository.existsById(1L)).thenReturn(true);
@@ -74,6 +90,9 @@ public class CityHistoryServiceTest {
         verify(cityHistoryRepository, times(1)).deleteById(1L);
     }
 
+    /**
+     * Testet die Methode removeCityHistory() für den Fall, dass die CityHistory nicht gefunden wird.
+     */
     @Test
     void testRemoveCityHistoryNotFound() {
         when(cityHistoryRepository.existsById(1L)).thenReturn(false);

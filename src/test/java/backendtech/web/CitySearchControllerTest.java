@@ -10,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +17,10 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Testklasse für den CitySearchController.
+ * Diese Klasse testet die verschiedenen Endpunkte des CitySearchController.
+ */
 @WebMvcTest(CitySearchController.class)
 public class CitySearchControllerTest {
 
@@ -36,6 +39,9 @@ public class CitySearchControllerTest {
         when(citySearchService.addCityEntry(any(CitySearch.class))).thenReturn(citySearch);
     }
 
+    /**
+     * Testet den Endpunkt für das Abrufen aller CitySearch-Einträge.
+     */
     @Test
     void testGetCityEntries() throws Exception {
         this.mockMvc.perform(get("/city"))
@@ -44,6 +50,9 @@ public class CitySearchControllerTest {
                 .andExpect(jsonPath("$[0].name").value("Berlin"));
     }
 
+    /**
+     * Testet den Endpunkt für das Abrufen eines CitySearch-Eintrags anhand der ID.
+     */
     @Test
     void testGetCityEntryById() throws Exception {
         this.mockMvc.perform(get("/city/1"))
@@ -52,6 +61,9 @@ public class CitySearchControllerTest {
                 .andExpect(jsonPath("$.name").value("Berlin"));
     }
 
+    /**
+     * Testet den Endpunkt für das Hinzufügen eines neuen CitySearch-Eintrags.
+     */
     @Test
     void testAddCityEntry() throws Exception {
         String cityJson = "{\"name\":\"Berlin\",\"temperature\":20,\"feelsLike\":18,\"description\":\"Sunny\",\"windSpeed\":5.0,\"humidity\":65,\"cloudiness\":10,\"country\":\"DE\",\"localTime\":\"12:00\"}";
@@ -64,6 +76,9 @@ public class CitySearchControllerTest {
                 .andExpect(jsonPath("$.name").value("Berlin"));
     }
 
+    /**
+     * Testet den Endpunkt für das Löschen eines CitySearch-Eintrags anhand der ID.
+     */
     @Test
     void testDeleteCityEntry() throws Exception {
         when(citySearchService.removeCityEntry(1L)).thenReturn(true);
@@ -74,4 +89,3 @@ public class CitySearchControllerTest {
         verify(citySearchService).removeCityEntry(1L);
     }
 }
-

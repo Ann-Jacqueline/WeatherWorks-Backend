@@ -12,6 +12,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Testklasse für den CityErrorController.
+ * Diese Klasse testet die verschiedenen Fehlerszenarien des CityErrorController.
+ */
 @WebMvcTest(CityErrorController.class)
 public class CityErrorControllerTest {
 
@@ -21,6 +25,9 @@ public class CityErrorControllerTest {
     @MockBean
     private MockHttpServletRequest request;
 
+    /**
+     * Testet den 404-Fehlerfall.
+     */
     @Test
     void testHandleErrorNotFound() throws Exception {
         when(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE)).thenReturn(404);
@@ -30,6 +37,9 @@ public class CityErrorControllerTest {
                 .andExpect(content().string("Resource not found, please try another Request\nWeatherWorks - your companion even on rainy days"));
     }
 
+    /**
+     * Testet den 500-Fehlerfall.
+     */
     @Test
     void testHandleErrorInternalServerError() throws Exception {
         when(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE)).thenReturn(500);
@@ -39,6 +49,9 @@ public class CityErrorControllerTest {
                 .andExpect(content().string("Server isn't activated yet, use the available Rest Mappings and routes\nWeatherWorks - your companion even on rainy days "));
     }
 
+    /**
+     * Testet den 400-Fehlerfall.
+     */
     @Test
     void testHandleErrorBadRequest() throws Exception {
         when(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE)).thenReturn(400);
@@ -48,6 +61,9 @@ public class CityErrorControllerTest {
                 .andExpect(content().string("Error occurred, please try another Request\nWeatherWorks - your companion even on rainy days"));
     }
 
+    /**
+     * Testet den Fall eines unbekannten Fehlers.
+     */
     @Test
     void testHandleUnknownError() throws Exception {
         when(request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE)).thenReturn(null);

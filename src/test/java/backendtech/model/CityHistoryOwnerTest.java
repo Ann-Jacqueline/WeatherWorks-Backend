@@ -5,8 +5,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Testklasse für CityHistoryOwner.
+ * Diese Klasse testet die Zuordnung eines Besitzers zu einer CityHistory.
+ */
 public class CityHistoryOwnerTest {
 
+    /**
+     * Testet die Zuordnung eines Besitzers zu einer CityHistory.
+     */
     @Test
     void testOwnerAssignmentToCityHistory() {
         // Erstellung des Besitzers
