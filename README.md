@@ -1,26 +1,53 @@
-# backend-webtech
+# WeatherWorks-Backend
 
-Der Backend-Teil der WeatherWorks Wetter-App kümmert sich serverseitig um alle Anfragen des Frontends und umfasst drei Entitäten:
+The backend part of the WeatherWorks Weather App handles all server-side requests from the frontend and includes three entities:
 
-CitySearch: Diese Entität ist primär für die Kommunikation mit der WeatherEntry-
-und WeatherSearch-Komponente zuständig und nimmt POST/GET-Anfragen entgegen.
+## Entities
 
-CityHistory: Diese Entität ist für die Erstellung und Verwaltung eines Städteverlaufs verantwortlich.
-Sie kommuniziert im Frontend mit der WeatherAccount-Komponente und verarbeitet POST/GET sowie DELETE-Anfragen.
+### CitySearch
 
-CityHistoryOwner: Diese Entität verwaltet alle Benutzeranfragen und dient der Zuordnung der Städteverläufe. S
-ie kommuniziert mit der WeatherStartPage im Frontend, um alle Benutzerdaten zu empfangen oder bereitzustellen.
+This entity is primarily responsible for communication with the WeatherEntry and WeatherSearch components, handling POST/GET requests.
 
-Der ErrorController behandelt, unabhängig von den oben genannten Entitäten, 
-alle clientseitigen Fehler (HTTP 400er Fehler) und serverseitigen Fehler (HTTP 500er Fehler).
+### CityHistory
 
-## Thema: Wetter App
-## Die Wetter-App soll externe Daten ziehen (durch externe APIs) und User Input speichern und verwalten
-## 7 tasks/ Use Cases: 
-### 1: Eine Übersicht einer Stadt mittels externer API KEY 
-### 2: User Input speichern durch: Möchte ich hin (searching funktion) 
-### 3: Default stadt Pinnen ch
-### 4: Default Stadt ändern 
-### 5:(Standorte verwalten): Standorte Löschen a
-### 6: Einstellungen (Einheit °C oder °F) 
-### 7. Error handling bei fehlerhafter Stadtsuche.
+This entity manages the creation and maintenance of a city history. It communicates with the WeatherAccount component in the frontend, 
+processing POST/GET and DELETE requests.
+
+### CityHistoryOwner
+
+This entity manages all user requests and assigns city histories to the user as the owner of the City History. 
+It communicates with the WeatherStartPage in the frontend to receive or provide all user data.
+
+### ErrorController
+
+Independently of the entities mentioned above, the ErrorController handles all client-side errors (HTTP 400 errors) 
+and server-side errors (HTTP 500 errors).
+
+## Topic: Weather App
+
+The Weather App is designed to pull external data (via external APIs) and store and manage user input.
+
+## 7 Tasks / Use Cases
+
+1. Provide an overview of a city using an external API key.
+2. Save user input through a city search function.
+3. Pin a default city.
+4. Change the default city.
+5. Manage locations: delete locations.
+6. Settings: unit preferences (°C or °F).
+7. Error handling for incorrect city searches.
+8. Multiuser functionality via login and log out functionality.
+
+## Interlinked Communication
+
+The backend component is linked to the PostgreSQL database and communicates with the frontend component 
+via the Frontend management store.ts 
+to handle data retrieval, data flow management, and data exchange. 
+This interlinked system ensures seamless data management between the frontend and backend.
+
+[Frontend Repository Link](https://github.com/Ann-Jacqueline/WeatherWorks-Frontend)
+
+## About the Project
+
+The app was developed as part of my Web Technologies module of the third semester 
+at the University of Applied Sciences for Technology and Economics Berlin (HTW Berlin).
