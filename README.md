@@ -27,7 +27,7 @@ and server-side errors (HTTP 500 errors).
 
 The Weather App is designed to pull external data (via external APIs) and store and manage user input.
 
-## 7 Tasks / Use Cases
+## App Functionalities / Use Cases
 
 1. Provide an overview of a city using an external API key.
 2. Save user input through a city search function.
