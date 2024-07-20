@@ -1,4 +1,5 @@
 # WeatherWorks-Backend
+![WeatherWorks](https://github.com/Ann-Jacqueline/backend-webtech/blob/main/WeatherWorks.gif)
 
 The backend part of the WeatherWorks Weather App handles all server-side requests from the frontend and includes three entities:
 
