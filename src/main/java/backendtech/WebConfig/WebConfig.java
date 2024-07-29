@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
                                 "http://localhost:5176", "http://localhost:5177", "http://localhost:5178",
                                 "http://localhost:5179", "http://localhost:5180", "http://localhost:5181",
                                 "http://localhost:5182",
-                                "https://frontend-webtech.onrender.com"
+                                "https://frontend-webtech.onrender.com","https://weatherworks-frontend.onrender.com"
                         );
         }
 }
